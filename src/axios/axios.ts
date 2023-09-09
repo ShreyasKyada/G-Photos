@@ -5,9 +5,7 @@ export const axiosInstance = axios.create();
 
 axiosInstance.interceptors.request.use(
   async (config) => {
-    // Modify the request config here (e.g., add headers, authentication, etc.)
     const { accessToken }: any = await getSession();
-    // console.log("session", accessToken);
 
     config.headers["Authorization"] = "Bearer " + accessToken;
     return config;
