@@ -1,7 +1,9 @@
+"use client";
+import { Albums } from "@/modules";
 import React from "react";
 
 const page = () => {
-  return <div>Albums</div>;
+  return <Albums />;
 };
 
 export default page;

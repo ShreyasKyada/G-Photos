@@ -62,7 +62,6 @@ const handler = NextAuth({
           }
         );
       } else if (token.expires_at && token.expires_at <= Date.now() / 1000) {
-        console.log("Hurray this token is no more!");
         const tokenData = await getAccessToken(token.sub);
 
         token.access_token = tokenData?.data.access_token;

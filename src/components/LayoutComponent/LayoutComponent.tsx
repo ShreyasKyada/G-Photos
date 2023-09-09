@@ -17,12 +17,13 @@ const LayoutComponent: React.FC<LayoutComponentProps> = ({ children }) => {
             mode="inline"
             defaultSelectedKeys={["allPhotos"]}
             defaultOpenKeys={["allPhotos"]}
-            style={{ height: "100%" }}
             items={sidebarConfig}
-            className="py-[20px]"
+            className="py-[20px] h-full"
           />
         </Sider>
-        <Content className="p-[20px]">{children}</Content>
+        <Content className="p-[20px] h-[calc(100vh - 64px)] overflow-y-auto">
+          {children}
+        </Content>
       </Layout>
     </Layout>
   );

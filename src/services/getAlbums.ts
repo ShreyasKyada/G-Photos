@@ -1,13 +1,8 @@
 import { axiosInstance } from "@/axios/axios";
-import axios from "axios";
-import { getSession } from "next-auth/react";
+import { BASE_URL } from "@/constants/constants";
 
 const getAlbums = async () => {
-  return axiosInstance.get("https://photoslibrary.googleapis.com/v1/albums", {
-    // headers: {
-    //   Authorization: "Bearer " + accessToken,
-    // },
-  });
+  return axiosInstance.get(BASE_URL + "albums");
 };
 
 export default getAlbums;
