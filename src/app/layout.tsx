@@ -1,13 +1,13 @@
 "use client";
-import { Layout, Menu } from "antd";
 import "./globals.css";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ConfigProvider, theme } from "antd";
-import { HeaderComponent, LayoutComponent } from "@/components";
+import { LayoutComponent } from "@/components";
 import { GlobalDataProvider } from "@/context";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -61,6 +61,7 @@ export default function RootLayout({
                 <LayoutComponent>{children}</LayoutComponent>
               </body>
             </ConfigProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>
         </GlobalDataProvider>
       </SessionProvider>
