@@ -8,7 +8,7 @@ import { useInfiniteQuery, useQuery } from "react-query";
 const Album = () => {
   const params = useParams();
 
-  return <PhotoLayout albumId={params.ablumId as string} />;
+  return <PhotoLayout albumId={params.albumId as string} />;
 };
 
 export default Album;

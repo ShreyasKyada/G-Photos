@@ -1,5 +1,5 @@
 import getAlbumItems from "@/services/getAlbumItems";
-import React from "react";
+import React, { useEffect } from "react";
 import { useInfiniteQuery } from "react-query";
 import { Loader } from "..";
 import { Checkbox, Image } from "antd";
@@ -9,8 +9,14 @@ import { useGlobalDataProvider } from "@/Hooks";
 const PhotoLayout: React.FC<PhotoLayoutProps> = ({ albumId }) => {
   const { selecteItems, setSelecteItems } = useGlobalDataProvider();
 
+  useEffect(() => {
+    return () => {
+      setSelecteItems([]);
+    };
+  }, []);
+
   const { data, fetchNextPage, isLoading } = useInfiniteQuery({
-    queryKey: ["ablum", albumId],
+    queryKey: ["infinite", albumId || "all Photos"],
     queryFn: () => getAlbumItems(albumId as string),
     getNextPageParam: (lastPage: any) => {
       return lastPage.data.nextPageToken;
