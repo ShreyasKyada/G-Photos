@@ -10,9 +10,12 @@ const GlobalDataProvider: React.FC<GlobalDataProviderProps> = ({
   children,
 }) => {
   const [sidebarConfig, setsidebarConfig] = useState(SIDEBAR_CONFIG);
+  const [selecteItems, setSelecteItems] = useState([]);
 
   return (
-    <globalContext.Provider value={{ sidebarConfig, setsidebarConfig }}>
+    <globalContext.Provider
+      value={{ sidebarConfig, setsidebarConfig, selecteItems, setSelecteItems }}
+    >
       {children}
     </globalContext.Provider>
   );
