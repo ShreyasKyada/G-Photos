@@ -1,12 +1,14 @@
 import React from "react";
-import { Layout, Typography } from "antd";
+import { Button, Layout, Typography } from "antd";
 import {
   CloseOutlined,
   DeleteOutlined,
   DownloadOutlined,
   PlusOutlined,
+  UploadOutlined,
 } from "@ant-design/icons";
 import useHeaderComponent from "./useHeaderComponent";
+import UploadFilesModal from "../UploadFilesModal/UploadFilesModal";
 
 const { Header } = Layout;
 
@@ -48,9 +50,12 @@ const HeaderComponent = () => {
           </div>
         </>
       ) : (
-        <Typography.Title level={3} className="!m-0">
-          G Photos
-        </Typography.Title>
+        <>
+          <Typography.Title level={3} className="!m-0">
+            G Photos
+          </Typography.Title>
+          <UploadFilesModal />
+        </>
       )}
     </Header>
   );

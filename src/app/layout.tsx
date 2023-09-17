@@ -8,6 +8,7 @@ import { ConfigProvider, theme } from "antd";
 import { LayoutComponent } from "@/components";
 import { GlobalDataProvider } from "@/context";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { RecoilRoot } from "recoil";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,29 +39,31 @@ export default function RootLayout({
       <SessionProvider>
         <GlobalDataProvider>
           <QueryClientProvider client={queryClient}>
-            <ConfigProvider
-              theme={{
-                algorithm: theme.darkAlgorithm,
-                token: {
-                  colorPrimary: "#00fff1",
-                },
-                components: {
-                  Layout: {
-                    colorBgHeader: "#141516",
-                    colorBgBody: "#141516",
+            <RecoilRoot>
+              <ConfigProvider
+                theme={{
+                  algorithm: theme.darkAlgorithm,
+                  token: {
+                    colorPrimary: "#00fff1",
                   },
-                },
-              }}
-            >
-              <body
-                className={`${inter.className} text-white`}
-                style={{
-                  background: colorBgContainer,
+                  components: {
+                    Layout: {
+                      colorBgHeader: "#141516",
+                      colorBgBody: "#141516",
+                    },
+                  },
                 }}
               >
-                <LayoutComponent>{children}</LayoutComponent>
-              </body>
-            </ConfigProvider>
+                <body
+                  className={`${inter.className} text-white`}
+                  style={{
+                    background: colorBgContainer,
+                  }}
+                >
+                  <LayoutComponent>{children}</LayoutComponent>
+                </body>
+              </ConfigProvider>
+            </RecoilRoot>
             <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>
         </GlobalDataProvider>

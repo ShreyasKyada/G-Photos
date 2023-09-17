@@ -17,7 +17,11 @@ const PhotoLayout: React.FC<PhotoLayoutProps> = ({ albumId }) => {
 
   const { data, fetchNextPage, isLoading } = useInfiniteQuery({
     queryKey: ["infinite", albumId || "all Photos"],
-    queryFn: () => getAlbumItems(albumId as string),
+    queryFn: ({ pageParam }) =>
+      getAlbumItems(albumId as string, {
+        pageSize: 100,
+        pageToken: pageParam,
+      }),
     getNextPageParam: (lastPage: any) => {
       return lastPage.data.nextPageToken;
     },
