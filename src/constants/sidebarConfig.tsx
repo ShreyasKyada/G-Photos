@@ -9,8 +9,4 @@ export const SIDEBAR_CONFIG = [
     key: "albums",
     label: <Link href="/albums">Albums</Link>,
   },
-  {
-    key: "App Created Data",
-    label: <Link href="/albums_shreyas">albums_shreyas</Link>,
-  },
 ];

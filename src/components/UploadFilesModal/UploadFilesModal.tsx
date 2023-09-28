@@ -1,17 +1,27 @@
-import { isUpadateModalOpen } from "@/recoil/uploadModalState";
-import { CloseOutlined, UploadOutlined } from "@ant-design/icons";
-import { Button, Modal, Typography, Upload } from "antd";
+import {
+  createdBatchCountAtom,
+  isAddToAlbumOpen,
+  isUpadateModalOpen,
+} from "@/recoil/uploadModalState";
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, Modal, Upload } from "antd";
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import uploadFiles from "@/services/uploadFiles";
 import createBatch from "@/services/createBatch";
 import { useQueryClient } from "react-query";
+import { useGlobalDataProvider } from "@/Hooks";
 
 const UploadFilesModal = () => {
   const [isOpen, setIsOpen] = useRecoilState(isUpadateModalOpen);
-  const [uploadedFilesCount, setUploadedFilesCount] = useState<number>(0);
-  const [createdBatchCount, setCreatedBatchCount] = useState(0);
+  const [addToAlbumOpen, setAddToAlbumOpen] = useRecoilState(isAddToAlbumOpen);
+  const [uploadedFilesCount, setUploadedFilesCount] = useState(0);
+  const [createdBatchCount, setCreatedBatchCount] = useRecoilState(
+    createdBatchCountAtom
+  );
+  const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
+  const { setSelecteItems } = useGlobalDataProvider();
 
   const onUploadClickHandler = () => {
     setIsOpen(true);
@@ -22,7 +32,6 @@ const UploadFilesModal = () => {
   };
 
   const customRequestHandler = (file: any) => {
-    console.log("custom", file);
     const blobFile = new Blob([file.file]);
     const reader = new FileReader();
     reader.readAsArrayBuffer(blobFile);
@@ -39,11 +48,39 @@ const UploadFilesModal = () => {
       })
         .then((res) => {
           file.onSuccess && file.onSuccess(res.data);
+          setUploadedFilesCount((uploadedFilesCount) => uploadedFilesCount + 1);
         })
         .catch((err) => {
           file.onError && file.onError(err);
         });
     };
+  };
+
+  const onChangeHandler = (files: any) => {
+    !isLoading && setIsLoading(true);
+    if (
+      files.fileList.length === uploadedFilesCount + 1 &&
+      files.file.status === "done"
+    ) {
+      const newBatchFiles = files.fileList
+        .slice(createdBatchCount, files.fileList.length)
+        .map((file: any) => ({
+          simpleMediaItem: {
+            fileName: file.name,
+            uploadToken: file.response,
+          },
+        }));
+      createBatch(newBatchFiles).then((data) => {
+        setCreatedBatchCount(uploadedFilesCount + 1);
+        const uploadedItemsId = data.data.newMediaItemResults.map(
+          (newMediaItem: any) => newMediaItem.mediaItem.id
+        );
+        setSelecteItems(uploadedItemsId);
+        if (!addToAlbumOpen) setAddToAlbumOpen(true);
+        setIsLoading(false);
+        queryClient.resetQueries(["infinite", "all Photos"]);
+      });
+    }
   };
 
   return (
@@ -64,6 +101,7 @@ const UploadFilesModal = () => {
         okText="Close"
         okButtonProps={{
           type: "primary",
+          disabled: isLoading,
         }}
         className="!h-[90vh] !w-[90%] top-[5%]"
         closeIcon={null}
@@ -72,26 +110,7 @@ const UploadFilesModal = () => {
           <Upload.Dragger
             listType="picture-card"
             customRequest={customRequestHandler}
-            onChange={(files) => {
-              if (files.file.status === "done") {
-                setUploadedFilesCount(uploadedFilesCount + 1);
-              }
-
-              if (files.fileList.length === uploadedFilesCount + 1) {
-                const newBatchFiles = files.fileList
-                  .slice(createdBatchCount, files.fileList.length)
-                  .map((file) => ({
-                    simpleMediaItem: {
-                      fileName: file.name,
-                      uploadToken: file.response,
-                    },
-                  }));
-                createBatch(newBatchFiles).then(() => {
-                  setCreatedBatchCount(uploadedFilesCount + 1);
-                  queryClient.resetQueries(["infinite", "all Photos"]);
-                });
-              }
-            }}
+            onChange={onChangeHandler}
             multiple
           >
             Drag and drop file over here
