@@ -38,7 +38,7 @@ const handler = NextAuth({
           access_type: "offline",
           response_type: "code",
           scope:
-            "openid https://www.googleapis.com/auth/photoslibrary.readonly https://www.googleapis.com/auth/photoslibrary",
+            "openid https://www.googleapis.com/auth/photoslibrary.readonly https://www.googleapis.com/auth/photoslibrary https://www.googleapis.com/auth/photoslibrary.edit.appcreateddata",
           client_id:
             "316485911822-pu2447j1qunjk6jrv1e5nj79k78t845o.apps.googleusercontent.com",
         },

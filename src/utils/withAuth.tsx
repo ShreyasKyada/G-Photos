@@ -1,6 +1,5 @@
-"use client";
 import * as React from "react";
-import { getSession, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const authRoutes = ["/signin"];
@@ -10,25 +9,31 @@ export default function withAuth<T>(Component: React.ComponentType<T>) {
     const router = useRouter();
     const [userInfo, setUserInfo] = React.useState<any>(null);
     const [isLoading, setIsLoading] = React.useState(true);
+    const [currentPath, setCurrentPath] = React.useState("");
 
     React.useEffect(() => {
       getSession().then((data) => {
         setUserInfo(data);
         setIsLoading(false);
       });
+
+      setCurrentPath(window.location.pathname);
     }, []);
 
-    if (typeof userInfo !== null) {
-      const isAuthRoutes =
-        authRoutes.includes(window ? window?.location?.pathname : "") || false;
+    React.useEffect(() => {
+      if (typeof userInfo !== null && currentPath && !isLoading) {
+        const isAuthRoute = authRoutes.includes(currentPath);
 
-      if (!userInfo && !isLoading && !isAuthRoutes) {
-        router.push("/signin");
-      } else if (userInfo && !isLoading && isAuthRoutes) {
-        router.push("/dashboard");
-      } else if (!isLoading) {
-        return <Component {...(props as T)} {...userInfo} />;
+        if (!userInfo && !isLoading && !isAuthRoute) {
+          router.replace("/signin");
+        } else if (userInfo && !isLoading && isAuthRoute) {
+          router.replace("/");
+        }
       }
+    }, [userInfo, currentPath, isLoading, router]);
+
+    if (!isLoading) {
+      return <Component {...(props as T)} {...userInfo} />;
     }
 
     return (

@@ -61,10 +61,10 @@ export default function RootLayout({
                   }}
                 >
                   <LayoutComponent>{children}</LayoutComponent>
+                  <ReactQueryDevtools initialIsOpen={false} />
                 </body>
               </ConfigProvider>
             </RecoilRoot>
-            <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>
         </GlobalDataProvider>
       </SessionProvider>

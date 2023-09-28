@@ -25,11 +25,12 @@ const PhotoLayout: React.FC<PhotoLayoutProps> = ({ albumId }) => {
     getNextPageParam: (lastPage: any) => {
       return lastPage.data.nextPageToken;
     },
-    select: (data: any) =>
-      data.pages.reduce(
+    select: (data: any) => {
+      return data.pages.reduce(
         (acc: any, page: any) => acc.concat(page.data.mediaItems),
         []
-      ),
+      );
+    },
   });
 
   const onChangeHandler = (photoId: string) => (event: any) => {
@@ -47,7 +48,7 @@ const PhotoLayout: React.FC<PhotoLayoutProps> = ({ albumId }) => {
   };
 
   return (
-    <div className="h-full w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-8 gap-2 grid-rows-[max-content]">
+    <div className="h-full w-full grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-2 grid-rows-[max-content]">
       {isLoading ? (
         <Loader />
       ) : (
@@ -95,4 +96,4 @@ const PhotoLayout: React.FC<PhotoLayoutProps> = ({ albumId }) => {
   );
 };
 
-export default PhotoLayout;
+export default React.memo(PhotoLayout);

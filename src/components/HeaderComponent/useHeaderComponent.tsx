@@ -1,7 +1,10 @@
 import { useGlobalDataProvider } from "@/Hooks";
+import { isAddToAlbumOpen } from "@/recoil/uploadModalState";
+import { useRecoilState } from "recoil";
 
 const useHeaderComponent = () => {
   const { selecteItems, setSelecteItems } = useGlobalDataProvider();
+  const [addToAlbumOpen, setAddToAlbumOpen] = useRecoilState(isAddToAlbumOpen);
 
   const onCloseClickHandler = () => {
     console.log("close handler");
@@ -13,6 +16,7 @@ const useHeaderComponent = () => {
   };
 
   const onAddToAlbumClickHandler = () => {
+    setAddToAlbumOpen(true);
     console.log("This is add to albums click handler");
   };
 
@@ -26,6 +30,8 @@ const useHeaderComponent = () => {
     onAddToAlbumClickHandler,
     onDownloadClickHandler,
     selecteItems,
+    addToAlbumOpen,
+    setAddToAlbumOpen,
   };
 };
 
