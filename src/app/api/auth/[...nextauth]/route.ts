@@ -30,8 +30,7 @@ export type CustomJWTParams = {
 const handler = NextAuth({
   providers: [
     GoogleProvider({
-      clientId:
-        "316485911822-pu2447j1qunjk6jrv1e5nj79k78t845o.apps.googleusercontent.com",
+      clientId: process.env.CLIENT_ID as string,
       clientSecret: "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",
       authorization: {
         params: {
@@ -39,8 +38,7 @@ const handler = NextAuth({
           response_type: "code",
           scope:
             "openid https://www.googleapis.com/auth/photoslibrary.readonly https://www.googleapis.com/auth/photoslibrary https://www.googleapis.com/auth/photoslibrary.edit.appcreateddata",
-          client_id:
-            "316485911822-pu2447j1qunjk6jrv1e5nj79k78t845o.apps.googleusercontent.com",
+          client_id: process.env.CLIENT_ID as string,
         },
       },
     }),

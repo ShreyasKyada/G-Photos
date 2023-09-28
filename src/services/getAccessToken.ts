@@ -17,9 +17,7 @@ export const getAccessToken = async (uid?: string) => {
     if (data.exists() && data.data()?.refreshToken) {
       try {
         const tokenData = await axios.post(TOKEN_URL, {
-          // code: authorizationCode,
-          client_id:
-            "316485911822-pu2447j1qunjk6jrv1e5nj79k78t845o.apps.googleusercontent.com",
+          client_id: process.env.CLIENT_ID,
           redirect_uri: "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",
           grant_type: "refresh_token",
           refresh_token: data.data()?.refreshToken,
