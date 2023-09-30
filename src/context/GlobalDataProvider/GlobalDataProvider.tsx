@@ -11,10 +11,18 @@ const GlobalDataProvider: React.FC<GlobalDataProviderProps> = ({
 }) => {
   const [sidebarConfig, setsidebarConfig] = useState(SIDEBAR_CONFIG);
   const [selecteItems, setSelecteItems] = useState([]);
+  const [addToAlbumOpen, setAddToAlbumOpen] = useState();
 
   return (
     <globalContext.Provider
-      value={{ sidebarConfig, setsidebarConfig, selecteItems, setSelecteItems }}
+      value={{
+        sidebarConfig,
+        setsidebarConfig,
+        selecteItems,
+        setSelecteItems,
+        addToAlbumOpen,
+        setAddToAlbumOpen,
+      }}
     >
       {children}
     </globalContext.Provider>

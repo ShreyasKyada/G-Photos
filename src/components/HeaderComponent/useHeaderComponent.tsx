@@ -3,8 +3,9 @@ import { isAddToAlbumOpen } from "@/recoil/uploadModalState";
 import { useRecoilState } from "recoil";
 
 const useHeaderComponent = () => {
-  const { selecteItems, setSelecteItems } = useGlobalDataProvider();
-  const [addToAlbumOpen, setAddToAlbumOpen] = useRecoilState(isAddToAlbumOpen);
+  const { selecteItems, setSelecteItems, addToAlbumOpen, setAddToAlbumOpen } =
+    useGlobalDataProvider();
+  // const [addToAlbumOpen, setAddToAlbumOpen] = useRecoilState(isAddToAlbumOpen);
 
   const onCloseClickHandler = () => {
     console.log("close handler");

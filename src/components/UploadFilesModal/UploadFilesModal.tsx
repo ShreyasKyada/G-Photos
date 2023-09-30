@@ -14,7 +14,7 @@ import { useGlobalDataProvider } from "@/Hooks";
 
 const UploadFilesModal = () => {
   const [isOpen, setIsOpen] = useRecoilState(isUpadateModalOpen);
-  const [addToAlbumOpen, setAddToAlbumOpen] = useRecoilState(isAddToAlbumOpen);
+  const { addToAlbumOpen, setAddToAlbumOpen } = useGlobalDataProvider();
   const [uploadedFilesCount, setUploadedFilesCount] = useState(0);
   const [createdBatchCount, setCreatedBatchCount] = useRecoilState(
     createdBatchCountAtom

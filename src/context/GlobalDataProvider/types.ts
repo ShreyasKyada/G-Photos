@@ -3,6 +3,8 @@ export interface GlobalDataProviderType {
   setsidebarConfig: any;
   selecteItems: string[];
   setSelecteItems: any;
+  addToAlbumOpen: any;
+  setAddToAlbumOpen: any;
 }
 
 export interface GlobalDataProviderProps {

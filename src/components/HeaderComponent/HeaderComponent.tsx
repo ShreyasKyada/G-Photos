@@ -28,6 +28,8 @@ const HeaderComponent = () => {
   const session = useSession();
   const [api, contextHolder] = Modal.useModal();
 
+  console.log("adda", addToAlbumOpen);
+
   useEffect(() => {
     if (addToAlbumOpen && session.status === "authenticated") {
       api.confirm({
@@ -51,7 +53,7 @@ const HeaderComponent = () => {
       {contextHolder}
       {selecteItems.length ? (
         <>
-          <div className="flex items-center justify-center gap-2">
+          <div className="flex items-center justify-center gap-2 pl-12">
             <CloseOutlined
               className="cursor-pointer [&>svg]:!h-[20px] [&>svg]:!w-[20px]"
               onClick={onCloseClickHandler}

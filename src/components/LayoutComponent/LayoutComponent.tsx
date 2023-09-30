@@ -29,7 +29,8 @@ const LayoutComponent: React.FC<LayoutComponentProps> = ({ children }) => {
             className="py-[20px] h-full"
           />
         </Sider>
-        <Content className="p-[20px] h-[calc(100vh - 64px)] overflow-y-auto">
+        {/* className="p-[20px] h-[calc(100vh - 64px)] overflow-y-auto" */}
+        <Content className="h-[calc(100vh-64px)] overflow-hidden">
           {children}
         </Content>
       </Layout>
