@@ -1,34 +1,30 @@
-import {
-  createdBatchCountAtom,
-  isAddToAlbumOpen,
-  isUpadateModalOpen,
-} from "@/recoil/uploadModalState";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Modal, Upload } from "antd";
 import React, { useState } from "react";
-import { useRecoilState } from "recoil";
 import uploadFiles from "@/services/uploadFiles";
 import createBatch from "@/services/createBatch";
 import { useQueryClient } from "react-query";
 import { useGlobalDataProvider } from "@/Hooks";
 
 const UploadFilesModal = () => {
-  const [isOpen, setIsOpen] = useRecoilState(isUpadateModalOpen);
-  const { addToAlbumOpen, setAddToAlbumOpen } = useGlobalDataProvider();
+  const {
+    addToAlbumOpen,
+    setAddToAlbumOpen,
+    isUpadateModalOpen,
+    setIsUpadateModalOpen,
+  } = useGlobalDataProvider();
   const [uploadedFilesCount, setUploadedFilesCount] = useState(0);
-  const [createdBatchCount, setCreatedBatchCount] = useRecoilState(
-    createdBatchCountAtom
-  );
+  const [createdBatchCount, setCreatedBatchCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
   const { setSelecteItems } = useGlobalDataProvider();
 
   const onUploadClickHandler = () => {
-    setIsOpen(true);
+    setIsUpadateModalOpen(true);
   };
 
   const onCancelClickHandler = () => {
-    setIsOpen(false);
+    setIsUpadateModalOpen(false);
   };
 
   const customRequestHandler = (file: any) => {
@@ -93,7 +89,7 @@ const UploadFilesModal = () => {
         Upload
       </Button>
       <Modal
-        open={isOpen}
+        open={isUpadateModalOpen}
         onOk={onCancelClickHandler}
         cancelButtonProps={{
           hidden: true,

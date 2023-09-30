@@ -1,10 +1,8 @@
 import React, { createContext, useState } from "react";
-import { GlobalDataProviderProps, GlobalDataProviderType } from "./types";
+import { GlobalDataProviderProps } from "./types";
 import { SIDEBAR_CONFIG } from "@/constants/sidebarConfig";
 
-export const globalContext = createContext<GlobalDataProviderType | undefined>(
-  undefined
-);
+export const globalContext = createContext<any>(undefined);
 
 const GlobalDataProvider: React.FC<GlobalDataProviderProps> = ({
   children,
@@ -12,6 +10,7 @@ const GlobalDataProvider: React.FC<GlobalDataProviderProps> = ({
   const [sidebarConfig, setsidebarConfig] = useState(SIDEBAR_CONFIG);
   const [selecteItems, setSelecteItems] = useState([]);
   const [addToAlbumOpen, setAddToAlbumOpen] = useState();
+  const [isUpadateModalOpen, setIsUpadateModalOpen] = useState(false);
 
   return (
     <globalContext.Provider
@@ -22,6 +21,8 @@ const GlobalDataProvider: React.FC<GlobalDataProviderProps> = ({
         setSelecteItems,
         addToAlbumOpen,
         setAddToAlbumOpen,
+        isUpadateModalOpen,
+        setIsUpadateModalOpen,
       }}
     >
       {children}

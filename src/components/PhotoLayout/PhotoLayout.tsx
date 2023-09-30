@@ -53,7 +53,7 @@ const PhotoLayout: React.FC<PhotoLayoutProps> = ({ albumId }) => {
     const scrollHeight = event.target.scrollHeight;
     const clientHeight = event.target.clientHeight;
 
-    if (scrollTop + clientHeight >= scrollHeight - 10 && !isFetchingNextPage) {
+    if (scrollTop + clientHeight >= scrollHeight - 50 && !isFetchingNextPage) {
       fetchNextPage();
     }
   };
