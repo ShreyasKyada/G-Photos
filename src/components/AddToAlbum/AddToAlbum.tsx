@@ -73,6 +73,7 @@ const AddToAlbum = () => {
         icon={<PlusOutlined />}
         type="text"
         onClick={onCreateAlbumClickHandler}
+        className="w-full"
       >
         New album
       </Button>
@@ -80,6 +81,7 @@ const AddToAlbum = () => {
         {isLoading ? (
           <Loader />
         ) : (
+          data &&
           data.map((album: any) => {
             return (
               <Card

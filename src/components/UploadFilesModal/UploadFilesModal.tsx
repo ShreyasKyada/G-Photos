@@ -108,6 +108,7 @@ const UploadFilesModal = () => {
             customRequest={customRequestHandler}
             onChange={onChangeHandler}
             multiple
+            className="[&>.ant-upload-list]:mt-[20px]"
           >
             Drag and drop file over here
           </Upload.Dragger>

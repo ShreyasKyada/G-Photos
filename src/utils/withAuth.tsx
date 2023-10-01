@@ -1,6 +1,7 @@
 import * as React from "react";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { Loader } from "@/components";
 
 const authRoutes = ["/signin"];
 
@@ -37,8 +38,8 @@ export default function withAuth<T>(Component: React.ComponentType<T>) {
     }
 
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center text-gray-800">
-        <p>Loading...</p>
+      <div className="flex h-[100vh] flex-col items-center justify-center text-gray-800">
+        <Loader />
       </div>
     );
   };
