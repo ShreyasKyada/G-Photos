@@ -48,20 +48,8 @@ const handler = NextAuth({
       if (account) {
         token.expires_at = account.expires_at;
         token.access_token = account.access_token;
-
         if (account.refresh_token) {
           await setDoc(
-            doc(getFirestore(firebaseApp), "users", account.providerAccountId),
-            {
-              accessToken: account.access_token,
-              uid: account.providerAccountId,
-              ...(account.refresh_token && {
-                refreshToken: account.refresh_token,
-              }),
-            }
-          );
-        } else {
-          await updateDoc(
             doc(getFirestore(firebaseApp), "users", account.providerAccountId),
             {
               accessToken: account.access_token,
@@ -74,7 +62,11 @@ const handler = NextAuth({
         }
       } else if (token.expires_at && token.expires_at <= Date.now() / 1000) {
         const tokenData = await getAccessToken(token.sub);
-
+        if (token.sub && tokenData) {
+          await updateDoc(doc(getFirestore(firebaseApp), "users", token.sub), {
+            accessToken: tokenData.data.access_token,
+          });
+        }
         token.access_token = tokenData?.data.access_token;
         if (token.iat) token.expires_at = token.iat + 3599;
       }

@@ -81,7 +81,7 @@ const HeaderComponent = ({ setOpen }: any) => {
       ) : (
         <>
           <div className="flex gap-4">
-            {session.status === "authenticated" && (
+            {session.status === "authenticated" && setOpen && (
               <MenuOutlined
                 onClick={() => {
                   setOpen((prev: boolean) => !prev);

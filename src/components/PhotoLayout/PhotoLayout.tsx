@@ -68,8 +68,9 @@ const PhotoLayout: React.FC<PhotoLayoutProps> = ({ albumId }) => {
         <Image.PreviewGroup
           preview={{
             getContainer: false,
-            toolbarRender: () => null,
+            // toolbarRender: () => null,
             destroyOnClose: true,
+            className: "bg-white/20 backdrop-blur-[40px]",
             imageRender: (node) => {
               if (node.props.useMap === "video")
                 return (

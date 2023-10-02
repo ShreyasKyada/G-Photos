@@ -20,7 +20,7 @@ const LayoutComponent: React.FC<LayoutComponentProps> = ({ children }) => {
 
   return (
     <Layout className="h-[100vh]">
-      <HeaderComponent setOpen={setOpen} />
+      <HeaderComponent setOpen={!screens.md && setOpen} />
       <Layout hasSider>
         {session.status === "authenticated" &&
           (screens.md ? (
