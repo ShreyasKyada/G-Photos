@@ -9,6 +9,7 @@ import { useGlobalDataProvider } from "@/Hooks";
 import { axiosInstance } from "@/axios/axios";
 import { BASE_URL } from "@/constants/constants";
 import { useSession } from "next-auth/react";
+import createAlbum from "@/services/createAlbum";
 
 const AddToAlbum = () => {
   const [api, notificationContext] = notification.useNotification();
@@ -39,13 +40,7 @@ const AddToAlbum = () => {
   });
 
   const { mutate: createAlbumMutation } = useMutation<any, any, any>({
-    mutationFn: (data) => {
-      return axiosInstance.post(BASE_URL + "albums", {
-        album: {
-          title: " ",
-        },
-      });
-    },
+    mutationFn: createAlbum,
   });
 
   const onCreateAlbumClickHandler = () => {

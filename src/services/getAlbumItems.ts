@@ -5,12 +5,14 @@ const getAlbumItems = async (albumId: string, params: any) => {
   return axiosInstance.post(BASE_URL + "mediaItems:search", {
     albumId: albumId,
     ...params,
-    // "dateFilter": {
-    //   "dates": [
+    // dateFilter: {
+    //   dates: [
     //     {
-    //       "year": 2017
-    //     }
-    //   ]
+    //       year: 2023,
+    //       month: 10,
+    //       day: 3,
+    //     },
+    //   ],
     // },
     // orderBy: "MediaMetadata.creation_time",
   });

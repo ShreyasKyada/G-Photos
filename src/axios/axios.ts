@@ -7,7 +7,21 @@ axiosInstance.interceptors.request.use(
   async (config) => {
     const { accessToken }: any = await getSession();
 
-    config.headers["Authorization"] = "Bearer " + accessToken;
+    console.log("session storage", sessionStorage.getItem("accessToken"));
+    let cookieToken = "";
+    const cookies = document.cookie.split("; ");
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split("=");
+      if (name === "accessToken") {
+        // return decodeURIComponent(value);
+        cookieToken = value;
+      }
+    }
+
+    console.log("cookieToken", cookieToken);
+    if (cookieToken) config.headers["Authorization"] = "Bearer " + cookieToken;
+    else config.headers["Authorization"] = "Bearer " + accessToken;
+
     return config;
   },
   (error) => {

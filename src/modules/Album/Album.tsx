@@ -35,7 +35,7 @@ const Album = () => {
   };
 
   return (
-    <>
+    <div>
       {!isLoading && (
         <input
           type="text"
@@ -56,7 +56,7 @@ const Album = () => {
       )}
       <PhotoLayout albumId={albumId as string} />
       {notificationContext}
-    </>
+    </div>
   );
 };
 
