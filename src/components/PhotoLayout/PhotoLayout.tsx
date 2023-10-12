@@ -1,13 +1,14 @@
 import getAlbumItems from "@/services/getAlbumItems";
-import React, { EventHandler, useEffect } from "react";
+import React, { EventHandler, useEffect, useState } from "react";
 import { useInfiniteQuery } from "react-query";
 import { Loader } from "..";
-import { Checkbox, Image } from "antd";
+import { Checkbox, DatePicker, Image } from "antd";
 import { PhotoLayoutProps } from "./types";
 import { useGlobalDataProvider } from "@/Hooks";
 
 const PhotoLayout: React.FC<PhotoLayoutProps> = ({ albumId }) => {
   const { selecteItems, setSelecteItems } = useGlobalDataProvider();
+  const [dateRangeFilter, setDateRangeFilter] = useState<any>(undefined);
 
   useEffect(() => {
     return () => {
@@ -15,23 +16,66 @@ const PhotoLayout: React.FC<PhotoLayoutProps> = ({ albumId }) => {
     };
   }, []);
 
-  const { data, fetchNextPage, isLoading, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ["infinite", albumId || "all Photos"],
-      queryFn: ({ pageParam }) =>
-        getAlbumItems(albumId as string, {
-          pageSize: 100,
-          pageToken: pageParam,
-        }),
-      getNextPageParam: (lastPage: any) => {
-        return lastPage.data.nextPageToken;
+  useEffect(() => {
+    if (dateRangeFilter) {
+      refetch();
+    }
+  }, [dateRangeFilter]);
+
+  const {
+    data,
+    refetch,
+    hasNextPage,
+    fetchNextPage,
+    isLoading,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["infinite", albumId || "all Photos", dateRangeFilter],
+    queryFn: ({ pageParam }) =>
+      getAlbumItems(albumId as string, {
+        pageSize: 100,
+        pageToken: pageParam,
+        dateRange: dateRangeFilter,
+      }),
+    getNextPageParam: (lastPage: any) => {
+      return lastPage.data.nextPageToken;
+    },
+    select: (data: any) => {
+      return data.pages.reduce((acc: any, page: any) => {
+        return acc.concat(page.data.mediaItems);
+      }, []);
+    },
+  });
+
+  const onDateChangeHandler = (event: any) => {
+    const startDate = new Date(event[0]);
+    const endDate = new Date(event[1]);
+
+    setDateRangeFilter({
+      startDate: {
+        year: startDate.getFullYear(),
+        month: startDate.getMonth() + 1,
+        day: startDate.getDate(),
       },
-      select: (data: any) => {
-        return data.pages.reduce((acc: any, page: any) => {
-          return acc.concat(page.data.mediaItems);
-        }, []);
+      endDate: {
+        year: endDate.getFullYear(),
+        month: endDate.getMonth() + 1,
+        day: endDate.getDate(),
       },
     });
+    // {
+    //         startDate: {
+    //           year: 2023,
+    //           month: 10,
+    //           day: 10,
+    //         },
+    //         endDate: {
+    //           year: 2023,
+    //           month: 10,
+    //           day: 13,
+    //         },
+    //       },
+  };
 
   const onChangeHandler = (photoId: string) => (event: any) => {
     if (event.target.checked) {
@@ -61,9 +105,12 @@ const PhotoLayout: React.FC<PhotoLayoutProps> = ({ albumId }) => {
 
   return (
     <div
-      className="overflow-y-auto h-full p-5 w-full"
+      className="overflow-y-auto h-full p-5 w-full relative"
       onScroll={onScrollHandler}
     >
+      <div className="sticky top-[-20px] h-12 z-50 bg-[#141516] flex justify-end items-center">
+        <DatePicker.RangePicker onChange={onDateChangeHandler} />
+      </div>
       <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 grid-rows-[max-content]">
         <Image.PreviewGroup
           preview={{
@@ -86,28 +133,33 @@ const PhotoLayout: React.FC<PhotoLayoutProps> = ({ albumId }) => {
             },
           }}
         >
-          {(data as any).map((items: any) => {
-            return (
-              <div key={items.id} className="relative">
-                <Image
-                  alt=""
-                  src={items.baseUrl}
-                  className="h-auto max-w-full rounded-lg"
-                  useMap={items.mimeType.includes("video") ? "video" : ""}
-                />
-                <Checkbox
-                  onChange={onChangeHandler(items.id)}
-                  checked={selecteItems.includes(items.id)}
-                  className="absolute top-[7px] left-[10px] [&>.ant-checkbox>.ant-checkbox-inner]:bg-black/70 [&>.ant-checkbox>.ant-checkbox-inner]:border-none"
-                />
-                <a href={items.baseUrl} target="_blank">
-                  download
-                </a>
-              </div>
-            );
-          })}
+          {(data as any)[0] ? (
+            (data as any).map((items: any) => {
+              return (
+                <div key={items.id} className="relative">
+                  <Image
+                    alt=""
+                    src={items.baseUrl}
+                    className="h-auto max-w-full rounded-lg"
+                    useMap={items.mimeType.includes("video") ? "video" : ""}
+                  />
+                  <Checkbox
+                    onChange={onChangeHandler(items.id)}
+                    checked={selecteItems.includes(items.id)}
+                    className="absolute top-[7px] left-[10px] [&>.ant-checkbox>.ant-checkbox-inner]:bg-black/70 [&>.ant-checkbox>.ant-checkbox-inner]:border-none"
+                  />
+                  <a href={items.baseUrl} target="_blank">
+                    download
+                  </a>
+                </div>
+              );
+            })
+          ) : (
+            <h1>No data</h1>
+          )}
         </Image.PreviewGroup>
       </div>
+      {!hasNextPage && <h1>There is no more data</h1>}
       {isFetchingNextPage && (
         <div className="block h-20">
           <Loader />

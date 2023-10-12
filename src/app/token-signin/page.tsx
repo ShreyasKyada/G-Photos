@@ -1,11 +1,12 @@
 "use client";
 import { getAccessToken } from "@/services/getAccessToken";
-import { CopyOutlined } from "@ant-design/icons";
 import { Button, Input } from "antd";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 const Page = () => {
   const [uid, setUid] = useState("");
+  const router = useRouter();
 
   const onChangeHandler = (event: any) => {
     setUid(event.target.value);
@@ -18,6 +19,7 @@ const Page = () => {
           console.log("data", data.data);
           // sessionStorage.setItem("accessToken", data.data.access_token);
           document.cookie = `accessToken=${data.data.access_token}; max-age=3600; path=/`;
+          router.push("/");
         }
       });
     }

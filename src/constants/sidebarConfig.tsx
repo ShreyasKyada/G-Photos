@@ -9,8 +9,4 @@ export const SIDEBAR_CONFIG = [
     key: "albums",
     label: <Link href="/albums">Albums</Link>,
   },
-  {
-    key: "Login With Token",
-    label: <Link href="/token-signin">Token SignIn</Link>,
-  },
 ];
