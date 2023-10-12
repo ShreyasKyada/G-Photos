@@ -1,7 +1,7 @@
 "use client";
 import { getAccessToken } from "@/services/getAccessToken";
 import { Button, Input } from "antd";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const Page = () => {
