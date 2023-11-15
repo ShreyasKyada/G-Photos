@@ -94,9 +94,11 @@ const PhotoLayout: React.FC<PhotoLayoutProps> = ({ albumId }) => {
       className="overflow-y-auto h-full p-5 w-full relative"
       onScroll={onScrollHandler}
     >
-      <div className="sticky top-[-20px] h-12 z-50 bg-[#141516] flex justify-end items-center">
-        <DatePicker.RangePicker onChange={onDateChangeHandler} />
-      </div>
+      {!albumId && (
+        <div className="sticky top-[-20px] h-12 z-50 bg-[#141516] flex justify-end items-center">
+          <DatePicker.RangePicker onChange={onDateChangeHandler} />
+        </div>
+      )}
 
       {isLoading ? (
         <Loader />
