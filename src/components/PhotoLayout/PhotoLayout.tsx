@@ -107,7 +107,6 @@ const PhotoLayout: React.FC<PhotoLayoutProps> = ({ albumId }) => {
           <Image.PreviewGroup
             preview={{
               getContainer: false,
-              // toolbarRender: () => null,
               destroyOnClose: true,
               className: "bg-white/20 backdrop-blur-[40px]",
               imageRender: (node) => {
@@ -140,9 +139,7 @@ const PhotoLayout: React.FC<PhotoLayoutProps> = ({ albumId }) => {
                       checked={selecteItems.includes(items.id)}
                       className="absolute top-[7px] left-[10px] [&>.ant-checkbox>.ant-checkbox-inner]:bg-black/70 [&>.ant-checkbox>.ant-checkbox-inner]:border-none"
                     />
-                    <a href={items.baseUrl} target="_blank">
-                      download
-                    </a>
+                    <a href={items.baseUrl + "=d"}>download</a>
                   </div>
                 );
               })
