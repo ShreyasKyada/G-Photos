@@ -54,7 +54,9 @@ const Album = () => {
           }}
         />
       )}
-      <PhotoLayout albumId={albumId as string} />
+      <div className="h-[calc(100vh-120px)]">
+        <PhotoLayout albumId={albumId as string} />
+      </div>
       {notificationContext}
     </div>
   );
